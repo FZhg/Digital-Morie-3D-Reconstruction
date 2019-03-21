@@ -26,8 +26,7 @@ You can find terrific tutorials on this amazing environment just by googling.
 
 ## Authors
 
-* **Bryan Zhang** - *Applied Physics Undergraduate* - [Hefei University of Technology](https://github.com/PurpleBooth)
-
+* **Bryan Zhang** - *Applied Physics Undergraduate* - [Hefei University of Technology](http://blossomnoodles.github.io)
 
 ## License
 
