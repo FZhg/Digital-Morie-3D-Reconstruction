@@ -1,5 +1,5 @@
 import numpy as np
-import seaborn as sns
+import imageio
 import os
 
 
@@ -33,33 +33,22 @@ class Morie(object):
         Returns
         a seaborn image object in dimension of (height, width)
         """
-        positions = np.ones([height, width]) * np.arange(0, width)
-        pixels = (min_gray_value + max_gray_value) / 2 + \
-            (max_gray_value - min_gray_value) / 2 * \
-            np.sin(2 * np.pi * positions / wavelength + phase)
-        pixels = pixels.astype(int)
-        print(pixels)
-        pattern = sns.heatmap(pixels,
-                              cmap='gray',
-                              cbar=False,
-                              xticklabels=False,
-                              yticklabels=False).get_figure()
-
         # check if the pattern is already generated
         fig_name = 'w' + str(width) + '_h' + str(height) + \
             '_' + str(min_gray_value) + "_" + \
             str(max_gray_value) + "_wl" + str(wavelength) + \
-            '_p' + str(phase) + '.jpg'
+            '_p' + str(phase) + '.png'
         current_dir = os.getcwd()
-        pattern_dir = r"../Patterns"
+        pattern_dir = r"./Patterns"
         os.chdir(pattern_dir)
         if fig_name in os.listdir():
             print("Pattern with the filename ---- " +
                   fig_name + " is already generated!")
         else:
-            pattern.savefig(fig_name)
+            positions = np.ones([height, width]) * np.arange(0, width)
+            pixels = (min_gray_value + max_gray_value) / 2 + \
+                (max_gray_value - min_gray_value) / 2 * \
+                np.sin(2 * np.pi * positions / wavelength + phase)
+            pixels = pixels.astype(int)
+            imageio.imwrite('~/' + fig_name, pixels)
         os.chdir(current_dir)
-
-
-morie = Morie()
-morie.generate_pattern(wavelength=80)
