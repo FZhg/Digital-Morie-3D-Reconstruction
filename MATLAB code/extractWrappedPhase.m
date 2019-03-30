@@ -16,19 +16,5 @@ function wrappedPhase = extractWrappedPhase(figPath0, figPath1, figPath2)
     fig0 = inputDeformedImage(figPath0);
     fig1 = inputDeformedImage(figPath1);
     fig2 = inputDeformedImage(figPath2);
-    wrappedPhase = atan((fig1 - fig2) ./ (2*fig0 - fig1 - fig2));
-end
-
-% Read and grayscalize the image file
-%
-% Input: 
-%   figPath0 - the directory path of image file
-%
-% Output:
-%   pattern - the grayscalized pattern matrix
-function pattern = inputDeformedImage(figPath)
-    figPath = char(figPath); % the url have to a characters
-    pattern = imread(figPath);
-    pattern = rgb2gray(pattern); % grayscale
-    pattern = mat2gray(pattern, [0, 255]); % normalized
+    wrappedPhase = atan((fig2 - fig1) ./ (2*fig0 - fig1 - fig2));
 end

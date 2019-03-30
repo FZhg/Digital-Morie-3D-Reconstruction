@@ -3,29 +3,31 @@
 %% value, wavlength(have to be perfect divided by the width), and image height and width
 
 % Generate the pattern array and save the image according to specific parameters
-function pattern = generatePattern(w, h, minGray, maxGray, wavelength, phase, isBinary)
+function [pattern, figPath] = generatePattern(w, h, minGray, maxGray, wavelength, phase, isBinary)
 % Check whether the image is already generated
-    figName = "w" + int2str(w) + "_h" + int2str(h) + "_" + int2str(minGray) + "_" +  int2str(maxGray) + "_wl" + int2str(wavelength) + "_p" + num2str(phase, 3);
+    figName = "w" + int2str(w) + "_h" + int2str(h) + "_g" + int2str(minGray) + "_" +  int2str(maxGray) + "_wl" + int2str(wavelength) + "_p" + num2str(phase, '%0.2f\n');
     if isBinary
         figName = figName + "_B";
     else
         figName = figName + "_S";
     end
-    figName = figName + ".png";
+    figName = figName + ".bmp";
     current_dir = pwd();
     cd("C:\Users\’≈∑≤\Documents\Digital-Morie-3D-Reconstruction\Patterns");
     if(exist(figName))
         disp('Pattern ---- ' + figName + ' is already generated!');
         pattern = imread(char(figName)); % save for future use
+        pattern = mat2gray(pattern, [0, 225]);
     else
         if isBinary
             pattern = generateBinaryPatternArray(w, h, minGray, maxGray, wavelength, phase);
         else
             pattern = generateSinPatternArray(w, h, minGray, maxGray, wavelength, phase);
         end
-        imwrite(pattern, char(figName));
+        imwrite(pattern, char(figName), 'BMP');
         disp('Pattern ---- ' + figName + ' is generated!');
     end
+    figPath = pwd() + "/" + figName;
     cd(current_dir);
 end
 
@@ -45,7 +47,7 @@ function pattern = generateBinaryPatternArray(w, h, minGray, maxGray, wavelength
     amplitude = (maxGray - minGray) / 2;
     standard = (maxGray + minGray) / 2;
     squareWaveMask = standard + amplitude * squareIntergerWave(positions, wavelength);
-    pattern = squareWaveMask * one([1, w]); % expand as horizontal stripes
+    pattern = squareWaveMask * ones([1, w]); % expand as horizontal stripes
     pattern = mat2gray(pattern, [0, 255]); % grayscalize
 end
 
