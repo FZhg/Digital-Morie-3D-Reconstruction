@@ -1,3 +1,0 @@
-figPath0="C:\Users\’≈∑≤\Documents\Digital-Morie-3D-Reconstruction\Experiments\Ex 3D reconstruction\pic\p0.png";
-figPath1="C:\Users\’≈∑≤\Documents\Digital-Morie-3D-Reconstruction\Experiments\Ex 3D reconstruction\pic\p1.png";
-figPath2="C:\Users\’≈∑≤\Documents\Digital-Morie-3D-Reconstruction\Experiments\Ex 3D reconstruction\pic\p3.png";

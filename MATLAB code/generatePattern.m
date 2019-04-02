@@ -13,7 +13,7 @@ function [pattern, figPath] = generatePattern(w, h, minGray, maxGray, wavelength
     end
     figName = figName + ".bmp";
     current_dir = pwd();
-    cd("C:\Users\’≈∑≤\Documents\Digital-Morie-3D-Reconstruction\Patterns");
+    cd("..\Patterns");
     if(exist(figName))
         disp('Pattern ---- ' + figName + ' is already generated!');
         pattern = imread(char(figName)); % save for future use
