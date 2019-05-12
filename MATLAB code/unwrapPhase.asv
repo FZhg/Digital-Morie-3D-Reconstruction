@@ -1,0 +1,13 @@
+%% This file contains function that can unwrap the phase
+
+% unwrapPhase, un
+
+% getRelativeWavelength
+% Input:
+%    lambdaA - the first wavelength
+%    lambdaB - the second wavelength
+% Output:
+%   lambdaAB - the relative wavelength
+function getRelativeWavelength(lambdaA, lambdaB)
+    lambdaAB =  lambdaA * lambdaB / abs(lambdaA - lambdaB);
+end

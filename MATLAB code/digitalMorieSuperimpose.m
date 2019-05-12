@@ -1,19 +1,25 @@
-%% After capturing a single frame of image, shift the pattern by a phase of pi/2
-%% or -pi/2; Then superimpose the two phase-shifted pattern with the captured image
+%% After capturing a single frame of image, shift the pattern by a phase of pi, delta, and delta + pi
+%% ; Then superimpose the two phase-shifted pattern with the captured image
 
 % Generate virtually two phase-shifted images and display them
 % Input:
 %   figPath - the directory path of the captured image
 %   patternPath - the directory path of used pattern
+%   deltaPixel - the smallest pixel moved
+%   isDisplay - logic true
 % Output£º
-%   figPath0 - the directory path of grayscalized caputured image
-%   figPath1 - the directory path of grayscalized image with the phase
-%   shift of pi / 2;
-%   figPath2 - the directory path of grayscalized image with the phase
-%   shift of 3 pi / 2 or - pi / 2;
-function [fig0, fig1, fig2, fig3] = digitalMorieSuperimpose(figPath, patternPath, deltaPixel, isDispaly)
+%   figZeroPS - the dfig of grayscalized caputured image
+%   figPiPS - the fig of grayscalized image with the phase
+%   shift of pi
+%   figDeltaPS - the fig of grayscalized image with the phase delta;
+%   figDeltaPiPS - the fig of grayscalized image with the phase delta + pi
+function [figZeroPS, figPiPS, figDeltaPS, figDeltaPiPS] = digitalMorieSuperimpose(figPath, patternPath, deltaPixel, isDispaly)
+    currentPath = pwd();
+    cd("..\Patterns");
+    directoryPath = pwd();
     patternPath = char(patternPath);
-    patternName = patternPath(end-32:end); 
+    patternName = patternPath(length(directoryPath)+1:end); % add the / simbol
+    cd(currentPath);
     
     % take out the width
     [startIndex, endIndex] = regexp(patternName, 'w[\d]*_');
@@ -33,7 +39,7 @@ function [fig0, fig1, fig2, fig3] = digitalMorieSuperimpose(figPath, patternPath
     
     % take out the wavelength
     [startIndex, endIndex] = regexp(patternName, 'wl[\d]*_');
-    wavelength = str2num(patternName(startIndex+2:endIndex-1));
+    wavelength = str2num(patternName(startIndex+2:endIndex-1)); %#ok<*ST2NM>
     
     % take out the phase
     [startIndex, endIndex] = regexp(patternName, 'p[\d]*.[\d]*_');
@@ -42,24 +48,24 @@ function [fig0, fig1, fig2, fig3] = digitalMorieSuperimpose(figPath, patternPath
     % take out the binary or sinuidal signal
     isBinary = (patternName(end-4) == 'B');
     
-    % nwe phases
-    phase0 = phase;
-    phase1 = phase + wavelength / 2;
-    phase2 = phase + deltaPixel;
-    phase3 = phase +  wavelength / 2 + deltaPixel;
+    % new phases
+    phaseZero = phase;
+    phasePi = phase + wavelength / 2;
+    phaseDelta = phase + deltaPixel;
+    phaseDeltaPi = phase +  wavelength / 2 + deltaPixel;
     
-    [pattern0, ~] = generatePattern(width, height, minGray, maxGray, wavelength, phase0, isBinary);
-    [pattern1, ~] = generatePattern(width, height, minGray, maxGray, wavelength, phase1, isBinary);
-    [pattern2, ~] = generatePattern(width, height, minGray, maxGray, wavelength, phase2, isBinary);
-    [pattern3, ~] = generatePattern(width, height, minGray, maxGray, wavelength, phase3, isBinary);
+    [pattern0, ~] = generatePattern(width, height, minGray, maxGray, wavelength, phaseZero, isBinary);
+    [pattern1, ~] = generatePattern(width, height, minGray, maxGray, wavelength, phasePi, isBinary);
+    [pattern2, ~] = generatePattern(width, height, minGray, maxGray, wavelength, phaseDelta, isBinary);
+    [pattern3, ~] = generatePattern(width, height, minGray, maxGray, wavelength, phaseDeltaPi, isBinary);
     
     figCaptured = inputDeformedImage(figPath);
     
     % save generated figures
-    [fig0, figPath0] = superimposeSingle(pattern0, figCaptured ,figPath, phase0);
-    [fig1, figPath1] = superimposeSingle(pattern1, figCaptured ,figPath, phase1);
-    [fig2, figPath2] = superimposeSingle(pattern2, figCaptured, figPath, phase2);
-    [fig3, figPath3] = superimposeSingle(pattern3, figCaptured ,figPath, phase3);
+    [figZeroPS, figPath0] = superimposeSingle(pattern0, figCaptured ,figPath, phaseZero);
+    [figPiPS, figPath1] = superimposeSingle(pattern1, figCaptured ,figPath, phasePi);
+    [figDeltaPS, figPath2] = superimposeSingle(pattern2, figCaptured, figPath, phaseDelta);
+    [figDeltaPiPS, figPath3] = superimposeSingle(pattern3, figCaptured ,figPath, phaseDeltaPi);
     
     % display the generated figures path
     disp("Figure on " + figPath0 + " is generated.");
@@ -70,25 +76,24 @@ function [fig0, fig1, fig2, fig3] = digitalMorieSuperimpose(figPath, patternPath
     
     % display the image
     if isDispaly
-        figure1=figure('Position', [100, 100, 2048, 1536]);
+        figure('Position', [100, 100, 2048, 1536]);
         colormap('gray');
         
         subplot(2, 2, 1);
-        imagesc(fig0, [0, 1]);
+        imagesc(figZeroPS, [0, 1]);
         title("Zero Phase-shift");
         
         subplot(2, 2, 2)
-        imagesc(fig1, [0, 1]);
+        imagesc(figPiPS, [0, 1]);
         title("\pi Phase-shift ");
         
         subplot(2, 2, 3)
-        imagesc(fig2, [0, 1]);
+        imagesc(figDeltaPS, [0, 1]);
         title("\delta Phase-shift ");
         
         subplot(2, 2, 4)
-        imagesc(fig3, [0, 1]);
+        imagesc(figDeltaPiPS, [0, 1]);
         title("\delta + \pi Phase-shift")
-        
     end
 end
 

@@ -3,11 +3,11 @@
 %% Input:
 %%  fig    - the superimposed figure matrix
 %%  decNum - the decomposition level number, an interger
-%%  wname  - the wavelt function name, 'db5', 'db12'
+%%  wName  - the wavelt function name, 'db5', 'db12'
 %%  sigma  - the gaussian damping factor
-function figFiltered = SWTFFT(fig, decNum, wname, sigma)
+function figFiltered = SWTFFT(fig, decNum, wName, sigma)
     % wavelet decompostion
-    [A, H, V, D] = swt2(fig, decNum, wname);
+    [A, H, V, D] = swt2(fig, decNum, wName);
     
     % fourier transform
     HDamped = zeros(size(H)); % only need to look at the horizontal coeffecient
@@ -31,5 +31,5 @@ function figFiltered = SWTFFT(fig, decNum, wname, sigma)
     end
     
     % wavelet reconstruction
-    figFiltered = iswt2(A, HDamped, V, D, wname);
+    figFiltered = iswt2(A, HDamped, V, D, wName);
  end

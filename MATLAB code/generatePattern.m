@@ -27,7 +27,7 @@ function [pattern, figPath] = generatePattern(w, h, minGray, maxGray, wavelength
         imwrite(pattern, char(figName), 'BMP');
         disp('Pattern ---- ' + figName + ' is generated!');
     end
-    figPath = pwd() + "/" + figName;
+    figPath = pwd() + "\" + figName;
     cd(current_dir);
 end
 
