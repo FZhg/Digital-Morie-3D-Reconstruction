@@ -39,7 +39,7 @@ function [figZeroPS, figPiPS, figDeltaPS, figDeltaPiPS] = digitalMorieSuperimpos
     
     % take out the wavelength
     [startIndex, endIndex] = regexp(patternName, 'wl[\d]*_');
-    wavelength = str2num(patternName(startIndex+2:endIndex-1)); %#ok<*ST2NM>
+    pitch = str2num(patternName(startIndex+2:endIndex-1)); %#ok<*ST2NM>
     
     % take out the phase
     [startIndex, endIndex] = regexp(patternName, 'p[\d]*.[\d]*_');
@@ -50,14 +50,14 @@ function [figZeroPS, figPiPS, figDeltaPS, figDeltaPiPS] = digitalMorieSuperimpos
     
     % new phases
     phaseZero = phase;
-    phasePi = phase + wavelength / 2;
+    phasePi = phase + pitch / 2;
     phaseDelta = phase + deltaPixel;
-    phaseDeltaPi = phase +  wavelength / 2 + deltaPixel;
+    phaseDeltaPi = phase +  pitch / 2 + deltaPixel;
     
-    [pattern0, ~] = generatePattern(width, height, minGray, maxGray, wavelength, phaseZero, isBinary);
-    [pattern1, ~] = generatePattern(width, height, minGray, maxGray, wavelength, phasePi, isBinary);
-    [pattern2, ~] = generatePattern(width, height, minGray, maxGray, wavelength, phaseDelta, isBinary);
-    [pattern3, ~] = generatePattern(width, height, minGray, maxGray, wavelength, phaseDeltaPi, isBinary);
+    [pattern0, ~] = generatePattern(width, height, minGray, maxGray, pitch, phaseZero, isBinary);
+    [pattern1, ~] = generatePattern(width, height, minGray, maxGray, pitch, phasePi, isBinary);
+    [pattern2, ~] = generatePattern(width, height, minGray, maxGray, pitch, phaseDelta, isBinary);
+    [pattern3, ~] = generatePattern(width, height, minGray, maxGray, pitch, phaseDeltaPi, isBinary);
     
     figCaptured = inputDeformedImage(figPath);
     

@@ -3,9 +3,9 @@
 %% value, wavlength(have to be perfect divided by the width), and image height and width
 
 % Generate the pattern array and save the image according to specific parameters
-function [pattern, figPath] = generatePattern(w, h, minGray, maxGray, wavelength, phase, isBinary)
+function [pattern, figPath] = generatePattern(w, h, minGray, maxGray, pitch, phase, isBinary)
 % Check whether the image is already generated
-    figName = "w" + int2str(w) + "_h" + int2str(h) + "_g" + int2str(minGray) + "_" +  int2str(maxGray) + "_wl" + int2str(wavelength) + "_p" + num2str(phase, '%0.2f\n');
+    figName = "w" + int2str(w) + "_h" + int2str(h) + "_g" + int2str(minGray) + "_" +  int2str(maxGray) + "_wl" + int2str(pitch) + "_p" + num2str(phase, '%0.2f\n');
     if isBinary
         figName = figName + "_B";
     else
@@ -20,9 +20,9 @@ function [pattern, figPath] = generatePattern(w, h, minGray, maxGray, wavelength
         pattern = mat2gray(pattern, [0, 225]);
     else
         if isBinary
-            pattern = generateBinaryPatternArray(w, h, minGray, maxGray, wavelength, phase);
+            pattern = generateBinaryPatternArray(w, h, minGray, maxGray, pitch, phase);
         else
-            pattern = generateSinPatternArray(w, h, minGray, maxGray, wavelength, phase);
+            pattern = generateSinPatternArray(w, h, minGray, maxGray, pitch, phase);
         end
         imwrite(pattern, char(figName), 'BMP');
         disp('Pattern ---- ' + figName + ' is generated!');
